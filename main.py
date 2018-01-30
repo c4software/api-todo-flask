@@ -1,7 +1,8 @@
-from flask import Flask, jsonify
+import uuid
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
-todo_memory = []
+todo_memory = {}
 
 @app.route("/api/todo")
 def getList():
@@ -11,7 +12,13 @@ def getList():
 @app.route("/api/todo", methods=['POST'])
 def save():
     """ Save a new element in the todo_memory """
-    return ""
+    data = request.form
+    if "texte" in data:
+        todo_memory[uuid.uuid4()] = {"texte": data["texte"], "termine": False}
+        return jsonify({"success": True})
+    else:
+        return jsonify({"success": False})
+
 
 @app.route("/api/todo/done/<current_id>")
 def done(current_id):
