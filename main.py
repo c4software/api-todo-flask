@@ -1,9 +1,11 @@
-from flask import Flask
+from flask import Flask, jsonify
+
 app = Flask(__name__)
+todo_memory = []
 
 @app.route("/api/todo")
-def list():
-    return ""
+def getList():
+    return jsonify(todo_memory)
 
 @app.route("/api/todo", methods=['POST'])
 def save():
@@ -19,4 +21,3 @@ def delete(id):
 
 if __name__ == '__main__':
     app.run()
-
