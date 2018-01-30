@@ -13,7 +13,14 @@ def save():
 
 @app.route("/api/todo/done/<id>")
 def done(id):
-    return ""
+    # Id in todo ?
+    if id in todo_memory:
+        current = todo_memory[id]
+        current["termine"] = True # Mark As done
+        todo_memory[id] = current # and Save
+        return jsonify({"success": True})
+    else:
+        return jsonify({"success": False})
 
 @app.route("/api/todo/delete/<id>", methods=['DELETE'])
 def delete(id):
