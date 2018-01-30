@@ -8,3 +8,12 @@ Fake API write with Flask
 
 - Python
 - Flask
+
+# Usage
+
+```sh
+$ virtualenv -p python3 ~/flask/
+$ source ~/flask/bin/activate
+$ python -m pip install flask
+$ python main.py
+```
