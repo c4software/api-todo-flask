@@ -5,11 +5,12 @@ todo_memory = []
 
 @app.route("/api/todo")
 def getList():
-    """ Get the current state of the todo « memory » list """
+    """ Get the current state of the todo memory list """
     return jsonify(todo_memory)
 
 @app.route("/api/todo", methods=['POST'])
 def save():
+    """ Save a new element in the todo_memory """
     return ""
 
 @app.route("/api/todo/done/<current_id>")
