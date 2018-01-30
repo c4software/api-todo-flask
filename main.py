@@ -1,46 +1,54 @@
+"""
+Sample python Code to ilustrate a course.
+"""
 import uuid
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session
+from helpers import init_session
 
 app = Flask(__name__)
-todo_memory = {}
 
 @app.route("/api/todo")
-def getList():
+@init_session
+def get_list():
     """ Get the current state of the todo memory list """
-    return jsonify(todo_memory)
+    return jsonify(session["todo"])
 
 @app.route("/api/todo", methods=['POST'])
+@init_session
 def save():
-    """ Save a new element in the todo_memory """
+    """ Save a new element in the session["todo"] """
     data = request.form
     if "texte" in data:
-        todo_memory[uuid.uuid4()] = {"texte": data["texte"], "termine": False}
+        session["todo"][uuid.uuid4()] = {"texte": data["texte"], "termine": False}
         return jsonify({"success": True})
     else:
         return jsonify({"success": False})
 
 
 @app.route("/api/todo/done/<current_id>")
+@init_session
 def done(current_id):
     """ Mark a todo as done """
     # Id in todo ?
-    if current_id in todo_memory:
-        current = todo_memory[current_id]
+    if current_id in session["todo"]:
+        current = session["todo"][current_id]
         current["termine"] = True # Mark As done
-        todo_memory[current_id] = current # and Save
+        session["todo"][current_id] = current # and Save
         return jsonify({"success": True})
     else:
         return jsonify({"success": False})
 
 @app.route("/api/todo/delete/<current_id>", methods=['DELETE'])
+@init_session
 def delete(current_id):
-    """ Remove element from the todo_memory """
+    """ Remove element from the session["todo"] """
     # current_id exist and mark as done ?
-    if current_id in todo_memory and todo_memory[current_id]["termine"]:
-        del todo_memory[current_id] # Remove the data
+    if current_id in session["todo"] and session["todo"][current_id]["termine"]:
+        del session["todo"][current_id] # Remove the data
         return jsonify({"success": True})
     else:
         return jsonify({"success": False})
 
 if __name__ == '__main__':
+    app.secret_key = 'YOLO_EXAMPLE_CHANGEME'
     app.run()
