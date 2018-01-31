@@ -79,11 +79,11 @@
 				"auth": {
 					"type": "noauth"
 				},
-				"method": "POST",
+				"method": "GET",
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://127.0.0.1:5000/api/todo/done/1",
+					"raw": "http://127.0.0.1:5000/api/todo/done/31870af2-3984-4882-9928-e69e56ed5ee2",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -96,7 +96,7 @@
 						"api",
 						"todo",
 						"done",
-						"1"
+						"31870af2-3984-4882-9928-e69e56ed5ee2"
 					]
 				}
 			},
