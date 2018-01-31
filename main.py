@@ -26,7 +26,7 @@ def save():
         return jsonify({"success": False})
 
 
-@app.route("/api/todo/done/<current_id>")
+@app.route("/api/todo/done/<current_id>", methods=["POST"])
 @init_session
 def done(current_id):
     """ Mark a todo as done """
