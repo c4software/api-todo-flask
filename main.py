@@ -19,7 +19,8 @@ def save():
     """ Save a new element in the session["todo"] """
     data = request.form
     if "texte" in data:
-        session["todo"][uuid.uuid4()] = {"texte": data["texte"], "termine": False}
+        session["todo"][str(uuid.uuid4())] = {"texte": data["texte"], "termine": False}
+        session.modified = True
         return jsonify({"success": True})
     else:
         return jsonify({"success": False})
@@ -34,6 +35,7 @@ def done(current_id):
         current = session["todo"][current_id]
         current["termine"] = True # Mark As done
         session["todo"][current_id] = current # and Save
+        session.modified = True
         return jsonify({"success": True})
     else:
         return jsonify({"success": False})
@@ -45,6 +47,7 @@ def delete(current_id):
     # current_id exist and mark as done ?
     if current_id in session["todo"] and session["todo"][current_id]["termine"]:
         del session["todo"][current_id] # Remove the data
+        session.modified = True
         return jsonify({"success": True})
     else:
         return jsonify({"success": False})
